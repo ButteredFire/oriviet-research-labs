@@ -6,7 +6,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import TwoColumnLayout from '../components/TwoColumnLayout.astro';
 
 import telemetryDashboardGIF from '../assets/GIFs/Astrocelerate-TelemetryDashboard.gif';
-const astrocelerateDemoGIF = '../../src/assets/Media/Astrocelerate-SatelliteZoomOut.mp4';
+const astrocelerateDemo = '/Media/Astrocelerate-SatelliteZoomOut.mp4';
 
 import frequencyGraph from '../assets/General/NaturalDisasterFreqCompGraph.png';
 ---
@@ -14,7 +14,7 @@ import frequencyGraph from '../assets/General/NaturalDisasterFreqCompGraph.png';
 <BaseLayout>
 	<section>
 		<video class="hero-overlain-content hero-background-image" muted autoplay loop transition:persist>
-			<source src={astrocelerateDemoGIF} type="video/mp4">
+			<source src={astrocelerateDemo} type="video/mp4">
 		</video>
 
 		<div class="hero-overlay"></div>

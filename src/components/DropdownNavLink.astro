@@ -1,0 +1,124 @@
+---
+interface Props {
+    navTitle: string;
+}
+
+const { navTitle } = Astro.props;
+---
+
+<li class="relative group">
+    <button class="font-bold nav-link uppercase inline-flex items-center" aria-expanded="false" aria-haspopup="true">
+        {navTitle}
+        <svg class="ml-1 w-3 h-3 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+    </button>
+    <ul class="absolute hidden group-hover:block bg-gray-950 text-white shadow-lg rounded-md mt-2 w-80 z-10">
+        <slot/>
+    </ul>
+</li>
+
+
+<style>
+    .nav-link {
+        position: relative;
+        padding-bottom: 2px;
+        transition: color 0.2s ease-in-out;
+    }
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 0%;
+        height: 1px;
+        background-color: white;
+        transition: width 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
+    .nav-link:hover::after {
+        width: 100%;
+        left: 0;
+        right: auto;
+    }
+
+    /* Styles for dropdown links */
+    /*
+    .nav-link-dropdown {
+        position: relative;
+        padding-bottom: 2px;
+        transition: color 0.2s ease-in-out;
+    }
+    .nav-link-dropdown::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 0%;
+        height: 1px;
+        background-color: white;
+        transition: width 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
+    .nav-link-dropdown:hover::after {
+        width: 100%;
+        left: 0;
+        right: auto;
+    }
+    */
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const dropdownToggles = document.querySelectorAll('.group > button[aria-haspopup="true"]');
+
+        dropdownToggles.forEach(toggle => {
+            let timeout;
+
+            toggle.addEventListener('mouseenter', () => {
+                clearTimeout(timeout);
+                const parentLi = toggle.closest('li');
+                const dropdownMenu = parentLi.querySelector('ul');
+                if (dropdownMenu) {
+                    dropdownMenu.classList.remove('hidden');
+                    toggle.setAttribute('aria-expanded', 'true');
+                }
+            });
+
+            toggle.addEventListener('mouseleave', () => {
+                const parentLi = toggle.closest('li');
+                const dropdownMenu = parentLi.querySelector('ul');
+                timeout = setTimeout(() => {
+                    if (dropdownMenu && !parentLi.matches(':hover')) {
+                        dropdownMenu.classList.add('hidden');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                }, 100); // Small delay to allow moving mouse to dropdown
+            });
+
+
+            // Handle leaving the entire dropdown area (parent li)
+            const parentLi = toggle.closest('li');
+            parentLi.addEventListener('mouseleave', () => {
+                timeout = setTimeout(() => {
+                    const dropdownMenu = parentLi.querySelector('ul');
+                    if (dropdownMenu && !parentLi.matches(':hover')) {
+                        dropdownMenu.classList.add('hidden');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                }, 100); // Small delay
+            });
+
+
+            // Close dropdown if focus moves outside (for accessibility)
+            parentLi.addEventListener('focusout', (event) => {
+                // Check if the new focus target is outside the dropdown parent <li>
+                if (!parentLi.contains(event.relatedTarget)) {
+                    const dropdownMenu = parentLi.querySelector('ul');
+                    if (dropdownMenu) {
+                        dropdownMenu.classList.add('hidden');
+                        toggle.setAttribute('aria-expanded', 'false');
+                    }
+                }
+            });
+        });
+    });
+</script>

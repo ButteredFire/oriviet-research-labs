@@ -1,0 +1,84 @@
+---
+const logoPath = '/Logos/OrivietResearchLabsLogo.svg';
+
+import DisabledNavLink from "./DisabledNavLink.astro";
+import DropdownNavLink from "./DropdownNavLink.astro";
+
+// Tooltip content for disabled navigation links
+const dropdownNavTooltip = "Work In Progress";
+const navTooltip = "Coming Soon";
+---
+
+<header class="header bg-black px-4 py-3 shadow-md">
+    <nav class="container mx-auto flex items-center justify-center">
+        <a href="/" class="absolute left-4 top-1/2 -translate-y-1/2 flex items-center h-full"> {/* Make the 'a' tag take full height of nav */}
+            <img
+              src={logoPath}
+              alt="Oriviet Aerospace Logo"
+              class="h-10 w-auto object-contain"> {/* Set a specific height for the image, let width auto-scale */}
+        </a>
+
+        <ul class="flex-grow flex justify-center items-center space-x-6">
+            <DropdownNavLink navTitle="Education">
+                <DisabledNavLink class="nav-dropdown-item-disabled" navTitle="Learn Orbital Mechanics (Vietnamese)" tooltipContent={dropdownNavTooltip}></DisabledNavLink>
+                <DisabledNavLink class="nav-dropdown-item-disabled" navTitle="Astrocelerate In Education" tooltipContent={dropdownNavTooltip}></DisabledNavLink>
+                <DisabledNavLink class="nav-dropdown-item-disabled" navTitle="Learn Vulkan graphics API (Vietnamese)" tooltipContent={dropdownNavTooltip}></DisabledNavLink>
+            </DropdownNavLink>
+            
+            <DropdownNavLink navTitle="Projects">
+                <DisabledNavLink class="nav-dropdown-item-disabled" navTitle="Astrocelerate" tooltipContent={dropdownNavTooltip}></DisabledNavLink>
+                <DisabledNavLink class="nav-dropdown-item-disabled" navTitle="Vietnamese Translation Project" tooltipContent={dropdownNavTooltip}></DisabledNavLink>
+                <DisabledNavLink class="nav-dropdown-item-disabled" navTitle="Astrocelerate: Weather Monitoring Integration" tooltipContent={dropdownNavTooltip}></DisabledNavLink>
+                <DisabledNavLink class="nav-dropdown-item-disabled" navTitle="Astrocelerate: Hardware Simulation Integration" tooltipContent={dropdownNavTooltip}></DisabledNavLink>
+            </DropdownNavLink>
+
+            <DisabledNavLink navTitle="Community"></DisabledNavLink>
+            <DisabledNavLink navTitle="Documentation"></DisabledNavLink>
+            <a href="/publications" class="font-bold nav-link uppercase">Publications</a>
+            <DisabledNavLink navTitle="News"></DisabledNavLink>
+        </ul>
+    </nav>
+</header>
+
+
+<style>
+    .header {
+        position: sticky;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--header-height);
+        display: flex;
+        flex-shrink: 0;
+        z-index: 999;
+    }
+
+    .nav-link {
+        position: relative;
+        transition: color 0.2s ease-in-out;
+    }
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 0%;
+        height: 1px; /* Underline thickness */
+        background-color: white; /* Underline color */
+        transition: width 0.2s ease-in-out, background-color 0.2s ease-in-out; /* Animate width and color */
+    }
+    .nav-link:hover::after {
+        width: 100%; /* Expand underline on hover */
+        left: 0;
+        right: auto;
+    }
+
+    .nav-dropdown-item-disabled {
+        display: block;
+        padding-inline: calc(var(--spacing) * 4); /* Tailwind: px-4 */
+        padding-block: calc(var(--spacing) * 2); /* Tailwind: py-2 */
+    }
+    .nav-dropdown-item-disabled:hover {
+        background-color: var(--color-gray-800);
+    }
+</style>

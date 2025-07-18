@@ -1,0 +1,26 @@
+---
+// Apparently, adding classes to a component that already has its own classes is NOT straightforward!
+// Solution attribution: https://stackoverflow.com/questions/75933212/can-i-pass-additional-classes-to-an-astro-component-from-parent
+const { class: className, ...rest } = Astro.props;
+---
+
+
+<div class:list={["card-section", className]} {...rest}>
+    <slot name="left" />
+    <slot name="right" />
+</div>
+
+
+<style>
+    .card-section {
+      display: flex;
+      flex-wrap: wrap; /* Allows columns to stack on smaller screens */
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .two-column-layout {
+        flex-direction: column;
+        }
+    }
+</style>

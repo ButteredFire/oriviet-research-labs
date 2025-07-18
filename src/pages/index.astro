@@ -1,16 +1,120 @@
 ---
 import '../styles/global.css';
+
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TwoColumnLayout from '../components/TwoColumnLayout.astro';
+
+import telemetryDashboardGIF from '../assets/GIFs/Astrocelerate-TelemetryDashboard.gif';
+const astrocelerateDemoGIF = '../../src/assets/Media/Astrocelerate-SatelliteZoomOut.mp4';
+
+import frequencyGraph from '../assets/General/NaturalDisasterFreqCompGraph.png';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Oriviet Research Labs</title>
-	</head>
-	<body>
-		<h1 class="font-extrabold text-2xl">Oriviet Research Labs - Coming Soon</h1>
-	</body>
-</html>
+<BaseLayout>
+	<section>
+		<video class="hero-overlain-content hero-background-image" muted autoplay loop transition:persist>
+			<source src={astrocelerateDemoGIF} type="video/mp4">
+		</video>
+
+		<div class="hero-overlay"></div>
+
+		<div class="relative hero-on-top w-full h-full flex flex-col align-middle items-center justify-center">
+			<img src="/Logos/OrivietResearchLabsLogo.svg" class="w-3xl h-auto mb-5"/>
+			<h2 class="text-3xl font-bold text-center">Vietnam's First Private Space Research Division</h2>
+		</div>
+
+		<div class="bottom-fade"></div>
+
+		<!--
+
+			<TwoColumnLayout class="hero-on-top w-full h-full two-col-layout justify-around">
+				<div slot="left" class="hero-on-top">
+					<div>
+						<img src="/Logos/OrivietResearchLabsLogo.svg" class="w-3xl h-auto mb-5"/>
+						<h2 class="text-3xl font-bold text-center">Vietnam's First Private Space Research Division.</h2>
+					</div>
+				</div>
+				
+				<div slot="right" class="hero-on-top image-container">
+					<div class="relative flex align-middle items-center justify-center h-full">
+						<Image src={telemetryDashboardGIF} alt="Astrocelerate Telemetry Dashboard" class="h-3/4 w-auto" loading="eager"/>
+					</div>
+			</div>
+		</TwoColumnLayout>
+	-->
+	</section>
+	
+	
+	<section>
+		<div class="w-full h-full p-10">
+			<h1 class="text-5xl font-bold text-center m-5 mb-10">Why now? Why Vietnam?</h1>
+
+			<TwoColumnLayout class="two-col-layout justify-around">
+				<div slot="left" class="image-container flex flex-col items-center text-center">
+					<p class="text-xl max-w-xl">Every year, Vietnam loses up to billions in GDP and hundreds of lives to natural disasters. Entire provinces vanish under floods.</p>
+
+					<Image src={frequencyGraph} alt="Natural disaster frequency graph" style="height: 50vh; width: auto;"/>
+					<p class="italic max-w-xl">Frequency and Intensity of Natural Disasters in Vietnam, Southeast Asia, and Worldwide (per thousand square kilometer)</p>
+					<p class="italic text-gray-500">Source: <a target="_blank" href="https://www.imf.org/en/News/Articles/2018/01/09/NA010918-For-Vietnam-greener-growth-can-reduce-climate-change-risks">International Monetary Fund</a>. Graph has been artificially modified for visibility.</p>
+				</div>
+
+				<div slot="right" class="flex flex-col items-center text-center gap-10">
+					<h2 class="text-4xl font-bold">We have the talent.<br/>And yet... we lack the infrastructure.</h2>
+					<p class="text-xl max-w-2xl">
+						In 2018, Storm Yagi displaced thousands and exposed the vulnerability of Vietnam's disaster preparedness systems. In a region facing increasingly frequent typhoons, droughts, and flooding, time-sensitive satellite data can mean the difference between disruption and disaster.
+						<br/><br/>But Vietnam still relies on foreign-built weather satellites and imports the software needed to process and visualize that data.
+						<br/><br/><span class="font-bold">Why now?</span> Because climate volatility is accelerating.
+						<br/><br/><span class="font-bold">Why Vietnam?</span> Because no other country will build these systems for us.
+						<br/><br/><span class="font-bold">Oriviet Research Labs</span> exists to fill the void between national vulnerability and national capability, by creating the software stack necessary for sovereign space systems.
+					</p>
+				</div>
+			</TwoColumnLayout>
+		</div>
+	</section>
+
+	<!--
+
+		<section style="background-color: red;"></section>
+		<section style="background-color: green;"></section>
+		<section style="background-color: crimson;"></section>
+	-->
+</BaseLayout>
+
+
+<style>
+	section {
+		width: 100%;
+		min-height: 100vh;
+		position: relative;
+	}
+	section:first-child() {
+		height: calc(100vh - var(--header-height));
+	}
+
+	.hero-background-image {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover; /* Ensures image covers the entire container */
+	}
+
+	.two-col-layout {
+		vertical-align: middle;
+		align-items: center;
+	}
+
+	.image-container {
+		height: 100%;
+	}
+
+	.bottom-fade {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 50vh;
+        background-image: linear-gradient(180deg, transparent, black);
+    }
+</style>

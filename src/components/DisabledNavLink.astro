@@ -1,0 +1,55 @@
+---
+import { undefined } from 'astro:schema';
+
+interface Props {
+    navTitle: string;
+    hasTooltip?: boolean;
+    tooltipContent?: string;
+}
+
+const { navTitle, hasTooltip, tooltipContent, class: className, ...rest } = Astro.props;
+
+// Tooltip behavior
+const tooltipEnabled = (hasTooltip != undefined) ? hasTooltip : true;
+const tooltipText = tooltipContent ? tooltipContent : 'Coming Soon';
+
+// Determine tooltip position based on context (top-level vs. dropdown)
+// For dropdown items, we want the tooltip to appear to the right,
+// while for top-level items, it appears below.
+const tooltipPositionClasses = className && className.includes('nav-dropdown-item-disabled')
+    ? "absolute top-1/2 left-full -translate-y-1/2 ml-2" // Position for dropdown items
+    : "absolute top-full left-1/2 -translate-x-1/2 mt-2"; // Position for top-level items
+---
+
+<li>
+    <div class:list={["nav-link-disabled font-bold uppercase relative", className]} {...rest}>
+        {navTitle}
+        { tooltipEnabled && (
+            <span class={`tooltip ${tooltipPositionClasses} px-2 py-1 bg-gray-700 text-white text-xs rounded opacity-0 transition-opacity duration-200 pointer-events-none whitespace-nowrap`}>
+                {tooltipText}
+            </span>
+        )}
+    </div>
+</li>
+
+<style>
+    .nav-dropdown-item-disabled {
+        display: block; /* Make sure it takes full width of LI */
+        padding-left: 1rem; /* px-4 */
+        padding-right: 1rem; /* px-4 */
+        padding-top: 0.5rem; /* py-2 */
+        padding-bottom: 0.5rem; /* py-2 */
+    }
+    .nav-dropdown-item-disabled:hover .tooltip {
+        opacity: 100%;
+    }
+
+    .nav-link-disabled {
+        color: #888; /* Dim the text to indicate it's disabled */
+        cursor: not-allowed; /* Change cursor to "not-allowed" */
+        pointer-events: auto; /* Allow hover events for the tooltip */
+    }
+    .nav-link-disabled:hover .tooltip {
+        opacity: 100%;
+    }
+</style>

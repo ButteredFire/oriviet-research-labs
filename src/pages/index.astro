@@ -2,66 +2,81 @@
 import '../styles/global.css';
 
 import { Image } from 'astro:assets';
+import { Icon } from 'astro-icon/components';
+
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TwoColumnLayout from '../components/TwoColumnLayout.astro';
+import Roadmap from '../components/Roadmap.astro';
 
-import telemetryDashboardGIF from '../assets/GIFs/Astrocelerate-TelemetryDashboard.gif';
-const astrocelerateDemo = '/Media/Astrocelerate-SatelliteZoomOut.mp4';
+// Media
+import simulationGIF from '../assets/GIFs/Astrocelerate-Simulation.gif';
+import satelliteRender from '../assets/Background/SatelliteCompositeRender.png';
+import earthRender from '../assets/Background/EarthRender.png';
+import horizonRender from '../assets/Background/PlanetHorizonRender.png';
 
 import frequencyGraph from '../assets/General/NaturalDisasterFreqCompGraph.png';
+import cubeSatRender from '../assets/General/GenericCubeSatRender.png';
+
+// Progress entries
+const roadmapEntries = [
+  {
+    date: '11.2024 - Present',
+    title: 'Astrocelerate',
+    description: 'Our flagship engine for high-fidelity orbital simulation. Built in Vulkan for unmatched performance. Supports maneuver modeling, orbital mechanics, and real-time state updates.',
+  },
+  {
+    date: '07.2025 - Present',
+    title: 'Vietnamese Translation Project',
+    description: 'A national-first initiative to translate key orbital mechanics and aerospace materials into Vietnamese, accelerating STEM accessibility.',
+  },
+  {
+    date: '07.2025 - Present',
+    title: 'Astrocelerate in Weather Monitoring',
+    description: 'R&D in progress to apply our simulation engine to model Earth-observing satellites in disaster-prone regions of Vietnam.',
+  },
+  {
+    date: 'The Near Future',
+    title: 'Astrocelerate Expansion',
+    description: 'Additional applications of Astrocelerate in mission design, nanosatellite deployment, and GNSS simulation are under development.',
+  }
+];
+
 ---
 
 <BaseLayout>
 	<section>
-		<video class="hero-overlain-content hero-background-image" muted autoplay loop transition:persist>
-			<source src={astrocelerateDemo} type="video/mp4">
-		</video>
+		<div class="hero-overlain-content">
+			<Image src={satelliteRender} alt="Satellite Render" class="hero-background-image" loading="eager"/>
+		</div>
 
 		<div class="hero-overlay"></div>
 
-		<div class="relative hero-on-top w-full h-full flex flex-col align-middle items-center justify-center">
-			<img src="/Logos/OrivietResearchLabsLogo.svg" class="w-3xl h-auto mb-5"/>
-			<h2 class="text-3xl font-bold text-center">Vietnam's First Private Space Research Division</h2>
+		<div class="hero-on-top w-full h-full flex flex-col align-middle items-center justify-center">
+			<img src="/Logos/OrivietResearchLabsLogo.svg" alt="Oriviet Research Labs Logo" class="w-3xl h-auto mb-5" loading="eager"/>
+			<h2 class="font-bold text-center">Vietnam's First Private Space Research Division</h2>
 		</div>
 
-		<div class="bottom-fade"></div>
-
-		<!--
-
-			<TwoColumnLayout class="hero-on-top w-full h-full two-col-layout justify-around">
-				<div slot="left" class="hero-on-top">
-					<div>
-						<img src="/Logos/OrivietResearchLabsLogo.svg" class="w-3xl h-auto mb-5"/>
-						<h2 class="text-3xl font-bold text-center">Vietnam's First Private Space Research Division.</h2>
-					</div>
-				</div>
-				
-				<div slot="right" class="hero-on-top image-container">
-					<div class="relative flex align-middle items-center justify-center h-full">
-						<Image src={telemetryDashboardGIF} alt="Astrocelerate Telemetry Dashboard" class="h-3/4 w-auto" loading="eager"/>
-					</div>
-			</div>
-		</TwoColumnLayout>
-	-->
+		<div class="hero-bottom-fade"></div>
 	</section>
 	
+	<div class="separator"></div>
 	
 	<section>
-		<div class="w-full h-full p-10">
-			<h1 class="text-5xl font-bold text-center m-5 mb-10">Why now? Why Vietnam?</h1>
+		<div class="relative w-full h-full p-10">
+			<h1 class="font-bold text-center m-5 mb-10">Why now? Why Vietnam?</h1>
 
-			<TwoColumnLayout class="two-col-layout justify-around">
+			<TwoColumnLayout class="two-col-layout justify-evenly h-full">
 				<div slot="left" class="image-container flex flex-col items-center text-center">
-					<p class="text-xl max-w-xl">Every year, Vietnam loses up to billions in GDP and hundreds of lives to natural disasters. Entire provinces vanish under floods.</p>
+					<p class="max-w-xl">Every year, Vietnam loses up to billions in GDP and hundreds of lives to natural disasters. Entire provinces vanish under floods.</p>
 
-					<Image src={frequencyGraph} alt="Natural disaster frequency graph" style="height: 50vh; width: auto;"/>
+					<Image src={frequencyGraph} alt="Natural disaster frequency graph" loading="lazy" style="height: 50vh; width: auto;" />
 					<p class="italic max-w-xl">Frequency and Intensity of Natural Disasters in Vietnam, Southeast Asia, and Worldwide (per thousand square kilometer)</p>
-					<p class="italic text-gray-500">Source: <a target="_blank" href="https://www.imf.org/en/News/Articles/2018/01/09/NA010918-For-Vietnam-greener-growth-can-reduce-climate-change-risks">International Monetary Fund</a>. Graph has been artificially modified for visibility.</p>
+					<p class="italic text-gray-500">Source: <a target="_blank" href="https://www.imf.org/en/News/Articles/2018/01/09/NA010918-For-Vietnam-greener-growth-can-reduce-climate-change-risks">International Monetary Fund</a>. The graph has been visually modified for visibility.</p>
 				</div>
 
 				<div slot="right" class="flex flex-col items-center text-center gap-10">
-					<h2 class="text-4xl font-bold">We have the talent.<br/>And yet... we lack the infrastructure.</h2>
-					<p class="text-xl max-w-2xl">
+					<h2 class="font-bold">We have the talent.<br/>And yet... we lack the infrastructure.</h2>
+					<p class="max-w-2xl">
 						In 2018, Storm Yagi displaced thousands and exposed the vulnerability of Vietnam's disaster preparedness systems. In a region facing increasingly frequent typhoons, droughts, and flooding, time-sensitive satellite data can mean the difference between disruption and disaster.
 						<br/><br/>But Vietnam still relies on foreign-built weather satellites and imports the software needed to process and visualize that data.
 						<br/><br/><span class="font-bold">Why now?</span> Because climate volatility is accelerating.
@@ -73,11 +88,95 @@ import frequencyGraph from '../assets/General/NaturalDisasterFreqCompGraph.png';
 		</div>
 	</section>
 
+	<div class="separator"></div>
+	
+	<section>
+		<div class="hero-top-fade"></div>
+
+		<div class="hero-overlain-content">
+			<Image src={earthRender} alt="Earth Render" class="hero-background-image"/>
+		</div>
+
+		<div class="hero-on-top">
+			<div class="text-center">
+				<h1 class="font-bold text-center mb-10">Space Infrastructure Begins with Simulation</h1>
+				<p class="font-bold mb-10">Oriviet Aerospace was not born in a university lab.<br/>It was born from the conviction that Vietnam deserves better space infrastructure.<br/>Not decades from now, but today.</p>
+				<p class="mb-10">At Oriviet Research Labs, our mission is twofold:</p>
+			</div>
+			
+			<TwoColumnLayout class="two-col-layout justify-evenly font-bold text-center m-10 h-full">
+				<div slot="left" class="max-w-xl">
+					<Image src={simulationGIF} alt="Astrocelerate Simulation" loading="lazy" class="h-full mb-5"/>
+					<p>To equip Vietnam with advanced simulation tools capable of modeling launch trajectories, orbits, and satellite networks in real time.</p>
+				</div>
+				
+				<div slot="right" class="max-w-xl">
+					<Image src={simulationGIF} alt="Astrocelerate Telemetry Dashboard" loading="lazy" class="h-full mb-5"/>
+					<p>To empower Vietnamese engineers with native-language educational resources that demystify the technologies of space and simulation.</p>
+				</div>
+			</TwoColumnLayout>
+	
+			<div class="flex align-middle items-center justify-center">
+				<p class="max-w-3xl text-center m-10">From orbital physics to weather-monitoring applications, we're laying the groundwork for a sovereign space future built not by foreign contractors, but by Vietnamese minds.</p>
+			</div>
+		</div>
+
+		<div class="hero-bottom-fade"></div>
+	</section>
+
+	<div class="separator"></div>
+
+	<section>
+		<h1 class="text-center font-bold mb-10">Projects Underway</h1>
+
+		<TwoColumnLayout class="two-col-layout justify-center font-bold text-center m-5 h-full">
+			<div slot="left" class="relative max-w-5xl">
+				<Roadmap entries={roadmapEntries} />
+			</div>
+			<div slot="right">
+				<Image src={cubeSatRender} alt="Generic CubeSat Render" loading="lazy" style="height: 60vh; width: auto;"/>
+			</div>
+		</TwoColumnLayout>
+	</section>
+
+
+	<section>
+		<div class="hero-overlain-content">
+			<Image src={horizonRender} alt="Planet Horizon Render" class="hero-background-image" loading="lazy"/>
+		</div>
+
+		<div class="hero-on-top w-full h-screen flex flex-col align-middle items-center justify-center text-center">
+			<div class="max-w-4xl">
+				<h1 class="hero-on-top font-bold m-20">We're Building for Vietnam. Join Us.</h1>
+				<p>Oriviet Research Labs is not a student-led side project. It is a technical and national imperative, built years ahead of its time. We are looking for advisors, collaborators, and early-stage funding to help scale our efforts from prototype to policy impact.</p>
+				
+				<div class="flex flex-nowrap items-center justify-center gap-10 mt-5 mb-5">
+					<p class="font-bold text-nowrap">If you are...</p>
+
+					<div class="text-left text-nowrap">
+						<div class="icons-container">
+							<Icon name="mdi:code-braces"/>
+							<p>A domain expert in orbital mechanics, space systems, or satellite data processing,</p>
+						</div>
+						<div class="icons-container">
+							<Icon name="mdi:finance"/>
+							<p>An investor or grant reviewer looking for underrepresented but high-leverage innovations,</p>
+						</div>
+						<div class="icons-container">
+							<Icon name="mdi:shield-account"/>
+							<p>A policymaker or technologist focused on climate resilience in Southeast Asia,</p>
+						</div>
+					</div>
+				</div>
+
+				<p class="mb-10">...then we want to work with you.</p>
+
+				<a target="_blank" href="mailto:development@oriviet.org" class="capitalize mt-8 btn-white-on-transparent font-semibold rounded-lg transition duration-300">Get In Touch</a>
+			</div>
+		</div>
+	</section>
 	<!--
 
-		<section style="background-color: red;"></section>
-		<section style="background-color: green;"></section>
-		<section style="background-color: crimson;"></section>
 	-->
 </BaseLayout>
 
@@ -87,6 +186,7 @@ import frequencyGraph from '../assets/General/NaturalDisasterFreqCompGraph.png';
 		width: 100%;
 		min-height: 100vh;
 		position: relative;
+		scroll-snap-align: start;
 	}
 	section:first-child() {
 		height: calc(100vh - var(--header-height));
@@ -101,6 +201,11 @@ import frequencyGraph from '../assets/General/NaturalDisasterFreqCompGraph.png';
 		object-fit: cover; /* Ensures image covers the entire container */
 	}
 
+	.separator {
+		width: 100%;
+		height: 5vh;
+	}
+
 	.two-col-layout {
 		vertical-align: middle;
 		align-items: center;
@@ -110,11 +215,13 @@ import frequencyGraph from '../assets/General/NaturalDisasterFreqCompGraph.png';
 		height: 100%;
 	}
 
-	.bottom-fade {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 50vh;
-        background-image: linear-gradient(180deg, transparent, black);
+	.icons-container {
+        display: flex;
+		align-items: center;
+    }
+    .icons-container svg { /* <Icon .../> is really just a wrapper around <svg .../> */
+        margin-right: 10px;
+        width: 1.5em;
+        height: auto;
     }
 </style>

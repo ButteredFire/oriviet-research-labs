@@ -6,11 +6,20 @@
 }
 
 html, body {
+    width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
     background-color: black;
     color: white;
+}
+
+
+/* This accounts for the header navbar */
+main {
+    min-height: var(--viewport-height);
+    display: flex;
+    flex-direction: column;
 }
 
 a {
@@ -34,5 +43,54 @@ a {
 }
 /* Content on top of the overlay. */
 .hero-on-top {
+    position: relative;
     z-index: 2;
+}
+/* Bottom and top hero fades */
+.hero-top-fade {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 50vh;
+    background-image: linear-gradient(0deg, transparent 0%, rgba(0, 0, 0, 0.5) 50%, black 100%);
+    z-index: 1;
+}
+.hero-bottom-fade {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50vh;
+    background-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 50%, black 100%);
+    z-index: 1;
+}
+
+
+/* Text size presets */
+h1 {
+    font-size: calc(var(--text-5xl) * 0.9) /* 3rem * 90% = 43.2px */;
+    line-height: var(--tw-leading, var(--text-5xl--line-height) /* 1 */); 
+}
+
+h2 {
+    font-size: var(--text-2xl) /* 1.5rem = 24px */;
+    line-height: var(--tw-leading, var(--text-2xl--line-height) /* calc(2 / 1.5) ≈ 1.3333 */);
+}
+
+p {
+    font-size: var(--text-xl) /* 1.25rem = 20px */;
+    line-height: var(--tw-leading, var(--text-xl--line-height) /* calc(1.75 / 1.25) ≈ 1.4 */);
+}
+
+
+/* Buttons */
+.btn-white-on-transparent {
+    background-color: transparent;
+    color: white;
+    padding-block: calc(var(--spacing) * 3);    /* Tailwind: py-3 */
+    padding-inline: calc(var(--spacing) * 8);   /* Tailwind: px-8 */
+}
+.btn-white-on-transparent:hover {
+    background-color: white;
+    color: black;
+    text-shadow: none;
 }

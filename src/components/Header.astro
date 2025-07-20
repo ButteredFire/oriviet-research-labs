@@ -1,5 +1,6 @@
 ---
 const logoPath = '/Logos/OrivietResearchLabsLogo.svg';
+const parentLogoPath = '/Logos/OrivietAerospaceLogo-Mono.svg';
 
 import DisabledNavLink from "./DisabledNavLink.astro";
 import DropdownNavLink from "./DropdownNavLink.astro";
@@ -14,6 +15,13 @@ const navTooltip = "Coming Soon";
         <a href="/" class="absolute left-4 top-1/2 -translate-y-1/2 flex items-center h-full"> {/* Make the 'a' tag take full height of nav */}
             <img
               src={logoPath}
+              alt="Oriviet Research Labs Logo"
+              class="h-10 w-auto object-contain"> {/* Set a specific height for the image, let width auto-scale */}
+        </a>
+        
+        <a target="_blank" href="https://www.oriviet.org/" class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center h-full"> {/* Make the 'a' tag take full height of nav */}
+            <img
+              src={parentLogoPath}
               alt="Oriviet Aerospace Logo"
               class="h-10 w-auto object-contain"> {/* Set a specific height for the image, let width auto-scale */}
         </a>

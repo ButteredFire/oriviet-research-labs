@@ -1,7 +1,89 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+
+import { getCollection } from 'astro:content'; // Astro's Content Collection API
+import { format } from 'date-fns';
+import { Icon } from 'astro-icon/components';
+
+// Query all articles from the 'publication' collection
+const allPublications = await getCollection('publication');
+
+    // Sorts the articles by data (newest to oldest)
+allPublications.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 ---
 
 <BaseLayout title='Publications'>
+  <div class="m-10 mb-10 text-center">
+    <h1 class="font-bold">Publications</h1>
+    <p>Here, you can find the latest technical articles and findings from Oriviet Research Labs.</p>
+  </div>
+
+  <div class="flex align-middle items-center justify-center">
+    <ul class="flex flex-col align-middle items-start justify-center gap-5">
+      {allPublications.map((post) => (
+        <a href={`/publications/${post.slug}/`} class="transition duration-300">
+          <li class="flex flex-col w-5xl m-5">
+            {/* Publication title (link) */}
+            <h2 class="font-bold">{post.data.title}</h2>
     
+            {/* Publication info */}
+            <p class="post-meta">
+              <span>        {/* "EEEE, dd/MM/yyyy" -> Monday, 01/01/1900 */}
+                Published: {format(post.data.publishDate, 'EEEE, dd/MM/yyyy')}
+              </span>
+              <span>by <span class="font-bold">{post.data.author}</span></span>
+            </p>
+    
+            {/* Description */}
+            <p>{post.data.description}</p>
+    
+            {/* Tags */}
+            {post.data.tags.length > 0 && (
+              <div class="tags m-2.5">
+                {post.data.tags.map(tag =>
+                  <div>
+                    <Icon name="mdi:tag"/>
+                    <span class="uppercase">{tag}</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </li>
+        </a>
+      ))}
+    </ul>
+  </div>
 </BaseLayout>
+
+<!--
+  
+    .post-list {list-style: none; padding: 0; }
+    .post-item { border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+    .post-item:last-child { border-bottom: none; }
+    .post-item h2 a { text-decoration: none; color: #3498db; }
+    .post-item h2 a:hover { text-decoration: underline; }
+    .post-meta { font-size: 0.9em; color: #7f8c8d; }
+    .post-meta span { margin-right: 15px; }
+  -->
+<style>
+  a {
+    font-weight: normal !important;
+  }
+  a:hover {
+    background-color: var(--color-gray-800);
+  }
+
+  .tags div {
+    display: inline-flex;
+    background-color: var(--color-gray-900);
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+  .tags div svg {
+      margin-right: 5px;
+      width: 1.5em;
+      height: auto;
+  }
+</style>

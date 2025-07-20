@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import { CollectionEntry } from 'astro:content'; // CollectionEntry for type safety
+import { format } from 'date-fns';
+import { Icon } from 'astro-icon/components';
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Generate static paths for each publication
+export async function getStaticPaths() {
+  const publications = await getCollection('publication');
+  return publications.map(entry => ({
+    params: { slug: entry.slug }, // Astro automatically creates a slug from filename
+    props: { entry }, // Pass the full entry object as a prop
+  }));
+}
+
+// Define the props received by this component
+interface Props {
+  entry: CollectionEntry<'publications'>; // Type the incoming 'entry' prop
+}
+
+const { entry } = Astro.props; // Destructure the entry from Astro.props
+const { Content } = await entry.render(); // Render the Markdown content to HTML
+---
+
+<BaseLayout title={entry.data.title}>
+  <div class="flex flex-col align-middle items-center justify-center">
+    <div class="flex flex-col m-10 text-center gap-5">
+      <h1 class="font-bold max-w-5xl">{entry.data.title}</h1>
+      <p>Published: {format(entry.data.publishDate, 'EEEE, dd/MM/yyyy')} by <span class="font-bold">{entry.data.author}</span></p>
+
+      {entry.data.tags.length > 0 && (
+        <div class="tags">
+          {entry.data.tags.map(tag =>
+            <div>
+              <Icon name="mdi:tag"/>
+              <span class="uppercase">{tag}</span>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+    
+    <div class="flex items-center justify-center">
+      <div class="flex flex-col w-full items-start prose lg:prose-xl">
+        <Content /> {/* This is where your Markdown content is rendered */}
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tags div {
+    display: inline-flex;
+    background-color: var(--color-gray-900);
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-size: 0.8em;
+  }
+  .tags div svg {
+      margin-right: 5px;
+      width: 1.5em;
+      height: auto;
+  }
+</style>
